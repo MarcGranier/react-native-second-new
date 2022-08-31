@@ -1,33 +1,31 @@
-import { useState } from 'react'
-import { FlatList, StyleSheet, Text, View } from 'react-native'
-import RenderCampsite from '../features/campsites/RenderCampsite'
-import { useSelector } from 'react-redux';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import RenderCampsite from '../features/campsites/RenderCampsite';
+import { toggleFavorite } from '../features/favorites/favoritesSlice';
 
 const CampsiteInfoScreen = ({ route }) => {
     const { campsite } = route.params;
-    const comments = useSelector ((state) => state.comments)
-
-    const [favorite, setFavorite] = useState(false)
-
+    const comments = useSelector((state) => state.comments);
+    const favorites = useSelector((state) => state.favorites);
+    const dispatch = useDispatch();
 
     const renderCommentItem = ({ item }) => {
-        return(
+        return (
             <View style={styles.commentItem}>
-                <Text style={{ fontSize: 14}}>{item.text}</Text>
-                <Text style= {{ fontSize: 12}}>{item.reating}</Text>
-                <Text style={{ fontSize: 12}}>
-                    {`--${item.author}, ${item.date}`}
+                <Text style={{ fontSize: 14 }}>{item.text}</Text>
+                <Text style={{ fontSize: 12 }}>{item.rating} Stars</Text>
+                <Text style={{ fontSize: 12 }}>
+                    {`-- ${item.author}, ${item.date}`}
                 </Text>
-
             </View>
-        )
-    }
+        );
+    };
 
-    return(
+    return (
         <FlatList
             data={comments.commentsArray.filter(
-                (comment) => comment.campsiteId ===campsite.id
-            )}            
+                (comment) => comment.campsiteId === campsite.id
+            )}
             renderItem={renderCommentItem}
             keyExtractor={(item) => item.id.toString()}
             contentContainerStyle={{
@@ -36,18 +34,16 @@ const CampsiteInfoScreen = ({ route }) => {
             }}
             ListHeaderComponent={
                 <>
-                    <RenderCampsite 
+                    <RenderCampsite
                         campsite={campsite}
-                        isFavorite={favorite}
-                        markFavorite={() => setFavorite(true)}
+                        isFavorite={favorites.includes(campsite.id)}
+                        markFavorite={() => dispatch(toggleFavorite(campsite.id))}
                     />
                     <Text style={styles.commentsTitle}>Comments</Text>
-
                 </>
             }
         />
-    )
-
+    );
 };
 
 const styles = StyleSheet.create({
@@ -65,10 +61,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         backgroundColor: '#fff'
     }
+});
 
-    
-
-    }
-)
-
-export default CampsiteInfoScreen
+export default CampsiteInfoScreen;
