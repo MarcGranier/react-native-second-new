@@ -36,6 +36,7 @@ const HomeScreen = () => {
     const featPromotions = promotions.promotionsArray.find((item) => item.featured)
     const featPartners = partners.partnersArray.find((item) => item.featured)
     
+ 
     
     return(
         <ScrollView>
