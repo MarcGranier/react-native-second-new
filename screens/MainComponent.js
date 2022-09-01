@@ -16,7 +16,7 @@ import logo from '../assets/images/logo.png'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { fetchCampsites } from '../features/campsites/campsitesSlice'
-import { commentsReducer, fetchComments } from '../features/comments/commentSlice'
+import { fetchComments } from '../features/comments/commentsSlice'
 import { fetchPartners } from '../features/partners/partnersSlice'
 import { fetchPromotions } from '../features/promotions/promotionsSlice'
 

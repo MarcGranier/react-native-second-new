@@ -7,7 +7,7 @@ export const fetchComments = createAsyncThunk(
         const response = await fetch(baseUrl + 'comments');
         return response.json();
     }
-);
+)
 
 const commentsSlice = createSlice({
     name: 'comments',
@@ -29,4 +29,4 @@ const commentsSlice = createSlice({
     }
 });
 
-export const commentsReducer = commentsSlice.reducer;
+export const commentsReducer = commentsSlice.reducer
