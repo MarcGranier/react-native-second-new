@@ -12,13 +12,15 @@ const RenderCampsite = (props) => {
     const view = useRef()
 
     const isLeftSwipe = ({ dx }) => dx < -200
+    const isRightSwipe = ({ dx }) => dx > 200
+
 
     const panResponder = PanResponder.create ({
         onStartShouldSetPanResponder: () => true,
         onPanResponderGrant: () => {
             view.current
                 .rubberBand(1000)
-                .then((endstate) =>
+                .then((endState) =>
                     console.log(endState.finished ? 'finished' : 'canceled')
                     )
         },
@@ -45,7 +47,9 @@ const RenderCampsite = (props) => {
                     {cancelable: false}
 
                 )
-            }
+                }else if (isRightSwipe(gestureState)){
+                    props.onShowModal()
+                }
         }
     })
 
@@ -64,7 +68,8 @@ const RenderCampsite = (props) => {
                             <Text style={styles.cardText}>{campsite.name}</Text>
                         </View>
                     </Card.Image>
-                    <Text style={{ margin: 20 }}>{campsite.description}</Text>
+                    <Text>{campsite.description}</Text>
+
                     <View style={styles.cardRow}>
                         <Icon
                             name={props.isFavorite ? 'heart' : 'heart-o'}
