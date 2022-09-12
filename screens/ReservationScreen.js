@@ -104,30 +104,8 @@ const ReservationScreen = () => {
                 />
             </View>
 
-                <View style={styles.modal}>
-                    <Text style={styles.modalTitle}>
-                        Search Campsite Reservations
-                    </Text>
-                    <Text style={styles.modalText}>
-                        Number Of Campers: {campers}
-                    </Text>
-                    <Text style={styles.modalText}>
-                        Hike-in?: {hikeIn ? 'Yes' : 'No'}
-                    </Text>
-                    <Text style={styles.modalText}>
-                        Date: {date.toLocaleDateString('en')}
-                    </Text>
-                    <Button
-                        onPress={() => {
-                            setShowModal(!showModal)
-                            resetForm()
-                        }}
-                        color='#5637DD'
-                        title='Close'
-                    />
-                    </View>
             </Animatable.View>
-         </ScrollView>
+    </ScrollView>
 
     );
 };
