@@ -6,6 +6,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import * as ImagePicker from 'expo-image-picker'
 import { baseUrl} from '../shared/baseUrl'
 import logo from '../assets/images/logo.png'
+import  * as ImageManipulator from 'expo-image-manipulator'
+import { isSearchBarAvailableForCurrentPlatform } from "react-native-screens"
+import { SaveFormat } from "expo-image-manipulator"
 
 const LoginTab = ({ navigation}) => {
     const [username, setUsername] = useState('')
@@ -153,11 +156,40 @@ const getImageFromCamera = async () => {
         })
         if (!capturedImage.cancelled) {
             console.log(capturedImage)
-            setImageUrl(capturedImage.uri)
+            // setImageUrl(capturedImage.uri)
+            processImage(capturedImage.uri)
         }
     }
 }
 
+
+
+const processImage = async(imgUri) => {
+    let processedImage = await ImageManipulator.manipulateAsync(imgUri, [{resize:{width: 400}}],
+        {format: SaveFormat.PNG})
+
+
+
+        console.log(processedImage)
+        setImageUrl(processedImage.uri)
+}
+
+const getImageFromGallery = async () => {
+    const GalleryPermission =
+        await ImagePicker.requestMediaLibraryPermissionsAsync()
+
+    if (GalleryPermission.status === 'granted') {
+        const capturedImage = await ImagePicker.launchImageLibraryAsync({
+            allowsEditing: true,
+            aspect: [1, 1]
+        })
+        if (!capturedImage.cancelled) {
+            console.log(capturedImage)
+            // setImageUrl(capturedImage.uri)
+            processImage(capturedImage.uri)
+        }
+    }
+}
 
     return(
     <ScrollView>
@@ -169,6 +201,7 @@ const getImageFromCamera = async () => {
                     style={styles.image}
                 />
                 <Button title='Camera' onPress={getImageFromCamera} />
+                <Button title='Gallery' onPress={getImageFromGallery}></Button>
             </View>
             <Input
                 placeholder='Username'

@@ -231,6 +231,9 @@ const Main = () => {
         dispatch(fetchComments());
     }, [dispatch]);
 
+
+
+
     useEffect(() => {
         NetInfo.fetch().then((connectionInfo) => {
             Platform.OS === 'ios'
@@ -254,6 +257,11 @@ const Main = () => {
         return unsubscribeNetInfo
     }, [])
 
+    const unsubscribeNetInfo = NetInfo.addEventListener(
+        (connectionInfo) => {
+            handleConnectivityChange(connectionInfo)
+        }
+    )
     const handleConnectivityChange = (connectionInfo) => {
         let connectionMsg = 'You are now connected to an active network.'
         switch (connectionInfo.type) {
@@ -431,4 +439,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Main;
+export default Main
