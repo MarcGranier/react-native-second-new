@@ -9,6 +9,8 @@ import logo from '../assets/images/logo.png'
 import  * as ImageManipulator from 'expo-image-manipulator'
 import { isSearchBarAvailableForCurrentPlatform } from "react-native-screens"
 import { SaveFormat } from "expo-image-manipulator"
+import * as MediaLibrary from 'expo-media-library'
+
 
 const LoginTab = ({ navigation}) => {
     const [username, setUsername] = useState('')
@@ -158,6 +160,7 @@ const getImageFromCamera = async () => {
             console.log(capturedImage)
             // setImageUrl(capturedImage.uri)
             processImage(capturedImage.uri)
+            MediaLibrary.saveToLibraryAsync(capturedImage.uri )
         }
     }
 }
@@ -169,9 +172,9 @@ const processImage = async(imgUri) => {
         {format: SaveFormat.PNG})
 
 
-
         console.log(processedImage)
         setImageUrl(processedImage.uri)
+
 }
 
 const getImageFromGallery = async () => {
